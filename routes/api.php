@@ -5,6 +5,7 @@ use App\Http\Controllers\Meta\MetaAuthController;
 use App\Http\Controllers\Campaign\CampaignController;
 use App\Http\Controllers\Campaign\AdSetController;
 use App\Http\Controllers\Campaign\AdController;
+use App\Http\Controllers\Analytics\AnalyticsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -34,22 +35,28 @@ Route::prefix('v1')->group(function () {
 
             // Campaigns
             Route::prefix('campaigns')->group(function () {
-                Route::get('/',                [CampaignController::class, 'index']);
-                Route::post('/',               [CampaignController::class, 'store']);
-                Route::get('/{id}',            [CampaignController::class, 'show']);
-                Route::put('/{id}',            [CampaignController::class, 'update']);
-                Route::delete('/{id}',         [CampaignController::class, 'destroy']);
-                Route::post('/{id}/toggle',    [CampaignController::class, 'toggleStatus']);
+                Route::get('/',             [CampaignController::class, 'index']);
+                Route::post('/',            [CampaignController::class, 'store']);
+                Route::get('/{id}',         [CampaignController::class, 'show']);
+                Route::put('/{id}',         [CampaignController::class, 'update']);
+                Route::delete('/{id}',      [CampaignController::class, 'destroy']);
+                Route::post('/{id}/toggle', [CampaignController::class, 'toggleStatus']);
 
-                // Ad Sets
-                Route::post('/{campaignId}/ad-sets',                      [AdSetController::class, 'store']);
-                Route::put('/{campaignId}/ad-sets/{adSetId}',             [AdSetController::class, 'update']);
-                Route::delete('/{campaignId}/ad-sets/{adSetId}',          [AdSetController::class, 'destroy']);
+                Route::post('/{campaignId}/ad-sets',                 [AdSetController::class, 'store']);
+                Route::put('/{campaignId}/ad-sets/{adSetId}',        [AdSetController::class, 'update']);
+                Route::delete('/{campaignId}/ad-sets/{adSetId}',     [AdSetController::class, 'destroy']);
 
-                // Ads
-                Route::post('/{campaignId}/ad-sets/{adSetId}/ads',                   [AdController::class, 'store']);
-                Route::put('/{campaignId}/ad-sets/{adSetId}/ads/{adId}',             [AdController::class, 'update']);
-                Route::delete('/{campaignId}/ad-sets/{adSetId}/ads/{adId}',          [AdController::class, 'destroy']);
+                Route::post('/{campaignId}/ad-sets/{adSetId}/ads',              [AdController::class, 'store']);
+                Route::put('/{campaignId}/ad-sets/{adSetId}/ads/{adId}',        [AdController::class, 'update']);
+                Route::delete('/{campaignId}/ad-sets/{adSetId}/ads/{adId}',     [AdController::class, 'destroy']);
+            });
+
+            // Analytics
+            Route::prefix('analytics')->group(function () {
+                Route::get('/dashboard',          [AnalyticsController::class, 'dashboard']);
+                Route::get('/campaigns/{id}',     [AnalyticsController::class, 'campaign']);
+                Route::get('/comparison',         [AnalyticsController::class, 'comparison']);
+                Route::post('/seed-test-data',    [AnalyticsController::class, 'seedTestData']);
             });
 
             Route::middleware(['role:agency,super_admin'])->prefix('agency')->group(function () {});
