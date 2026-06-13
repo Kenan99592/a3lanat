@@ -11,3 +11,4 @@ Route::get('/campaigns/create', fn() => view('campaigns.create'));
 Route::get('/analytics', fn() => view('dashboard.index'));
 Route::get('/billing', fn() => view('billing.index'));
 Route::get('/client', fn() => view('client.dashboard'));
+Route::get('/campaigns/launch', fn() => view('campaigns.launch'));

@@ -75,3 +75,6 @@ Route::prefix('v1')->group(function () {
         });
     });
 });
+
+// Meta OAuth Callback - GET
+Route::get('/v1/meta/callback', [App\Http\Controllers\Meta\MetaAuthController::class, 'handleCallback']);
